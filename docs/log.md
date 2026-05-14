@@ -66,3 +66,24 @@
 - 웹 뷰어 = 백엔드 없는 정적 HTML, 드래그&드롭으로 MusicXML 받음
 - 반주 스타일은 **사용자가 선택하지 않음** — 곡 BPM 등으로 자동 결정
   - 이유: 노래 따라 부르려고 만드는 도구라 "발라드를 재즈풍으로" 같은 옵션은 무의미
+
+### git 저장소 + GitHub 연결 + OneDrive 정리
+
+**한 일**
+
+- 로컬 git 저장소 초기화 (`git init`), main 브랜치
+- 첫 커밋: 설계 문서 11개 파일 (dodamking 명의)
+- GitHub 원격 저장소 연결: https://github.com/DodamKing/staff-ai (private)
+- `git push -u origin main` 완료
+
+**OneDrive 정리 (시스템 측면)**
+
+- 현재 머신은 OneDrive 클라이언트가 사실상 비활성 상태였음 (프로세스 미실행, OneDrive.exe PATH 못 찾음)
+- Windows 업데이트로 재설치 방지를 위해 그룹 정책 `DisableFileSyncNGSC=1` 적용 (gpedit)
+- HKCU의 빈 OneDrive Personal 계정 흔적 제거
+- `C:\Users\scsma\OneDrive\Desktop\` 폴더 안 다른 작업물(3.4GB / 12.8만 파일) 존재 → 폴더 자체는 보존, sync만 영구 차단
+
+**다음 환경 셋업**
+
+- 다른 환경(ffmpeg 있는)에서 OneDrive 밖 경로에 `git clone https://github.com/DodamKing/staff-ai.git`
+- 이어서 [`docs/todo.md`](../todo.md)의 "다음 작업 — v0 셋업"부터 진행
