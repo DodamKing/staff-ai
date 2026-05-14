@@ -8,17 +8,22 @@
 
 ## 다음 작업 — v0 셋업
 
-> ⚠️ **셋업은 ffmpeg가 이미 깔린 환경에서 시작.** 현재 Windows 머신엔 ffmpeg 없음 → 셋업해도 검증 불가.
->
-> ⚠️ **OneDrive 동기화 제외 설정 먼저.** `.venv/`, `cache/`, `outputs/`, `__pycache__/` 폴더는 OneDrive 동기화에서 빼야 충돌 안 남. (`.gitignore`엔 있지만 OneDrive는 별개)
+> 📌 **셋업은 두 단계로 분리.** 구조/의존성 셋업은 **현재 Windows 11 머신**에서 진행 가능 (uv.lock은 크로스플랫폼). 실제 곡 분석/검증은 **ffmpeg 깔린 환경**에서. 다른 머신은 Windows 10 → `git clone` (OneDrive 밖 경로) → `uv sync` → `winget install Gyan.FFmpeg` 순.
 
-- [ ] OneDrive 동기화 제외: 위 4개 폴더를 OneDrive 설정에서 제외 (또는 폴더 우클릭 → "이 디바이스에 항상 보관" 끄기)
-- [ ] uv 프로젝트 초기화 (`uv init`, Python 3.11+)
-- [ ] 기본 의존성 추가: music21, librosa, yt-dlp, httpx, autochord
-- [ ] ffmpeg 설치 확인 (Windows: `winget install Gyan.FFmpeg`)
-- [ ] 폴더 구조 생성: `src/staff_ai/`, `src/staff_ai/patterns/`, `web/`, `outputs/`, `cache/audio/`, `cache/analysis/`
-- [ ] `src/staff_ai/__init__.py`: `generate_score()` 스텁 작성 (의존 모듈들 import만)
-- [ ] 패키지 import 동작 확인 (`uv run python -c "from staff_ai import generate_score"`)
+**여기(Win11)에서 가능** ✅ 완료 ([log 2026-05-14](log.md))
+
+- [x] uv 프로젝트 초기화 (`uv init --lib --python 3.11`)
+- [x] 기본 의존성 추가: music21, librosa, yt-dlp, httpx (autochord는 vamp 빌드 실패로 보류)
+- [x] 폴더 구조 생성: `src/staff_ai/`, `src/staff_ai/patterns/`, `web/`, `outputs/`, `cache/audio/`, `cache/analysis/`
+- [x] `src/staff_ai/__init__.py`: `generate_score()` 스텁
+- [x] 패키지 import 동작 확인
+
+**다른 환경(ffmpeg 가능한 곳)에서**
+
+- [ ] `git clone` (OneDrive 밖 경로) → `uv sync`
+- [ ] ffmpeg 설치 (`winget install Gyan.FFmpeg`)
+- [ ] autochord 재시도 (Win10 환경에서 `uv add autochord`) — 안 되면 `librosa chroma + 직접 매칭`으로 전환
+- [ ] 실제 곡으로 끝까지 동작 확인 (아래 [검증](#검증) 섹션)
 
 ## v0 핵심 작업 (셋업 후)
 

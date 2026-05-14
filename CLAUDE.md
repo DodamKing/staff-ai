@@ -20,5 +20,8 @@
 
 1. 새 작업 시작 전 `docs/todo.md`, `docs/log.md` 확인
 2. 작업 중 todo 업데이트 (완료 체크, 새 항목 추가)
-3. 작업 완료 시 `docs/log.md`에 해당 날짜 섹션 append
-4. 큰 결정/스코프 변경은 `docs/planning/` 문서 업데이트 또는 별도 ADR 추가 검토
+3. **작업 마무리 — 다음 모두 수행한 뒤 커밋**:
+   - `docs/log.md`에 해당 날짜 섹션 append (한 일 / 주요 결정·이슈 / 다음)
+   - 휘발되면 안 되는 결정·스코프 변경은 `docs/planning/` 갱신 또는 별도 ADR
+   - `docs/todo.md` 동기화 (완료 체크, 새 항목 반영)
+   - 위 변경사항을 묶어 커밋 (사용자 명의, AI Co-Authored-By 태그 금지)

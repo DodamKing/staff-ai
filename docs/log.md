@@ -87,3 +87,27 @@
 
 - 다른 환경(ffmpeg 있는)에서 OneDrive 밖 경로에 `git clone https://github.com/DodamKing/staff-ai.git`
 - 이어서 [`docs/todo.md`](../todo.md)의 "다음 작업 — v0 셋업"부터 진행
+
+### v0 셋업 1단계 — 프로젝트 골격 (현재 머신)
+
+**배경 — 셋업을 두 단계로 분리하기로**
+
+- 처음엔 "ffmpeg 있는 환경에서 셋업 시작"으로 todo에 적었으나 재검토. uv가 만드는 `pyproject.toml`/`uv.lock`은 크로스플랫폼이고, 의존성 설치 자체는 ffmpeg 무관 (런타임에만 필요). 두 환경 다 Windows라 OS 차이도 없음.
+- → 구조/의존성은 여기서 다 잡고, 다른 환경(Win10 + ffmpeg)에선 `git clone` → `uv sync` → ffmpeg만 깔고 검증 단계 진입.
+
+**한 일**
+
+- `uv init --lib --python 3.11` — src 레이아웃 패키지 생성
+- 의존성 추가: `music21`, `librosa`, `yt-dlp`, `httpx` (4개)
+- 폴더 구조: `src/staff_ai/patterns/`, `web/`, `outputs/`, `cache/audio/`, `cache/analysis/`
+- `src/staff_ai/__init__.py`: `generate_score(url) -> str` 스텁 (NotImplementedError)
+- `uv run python -c "from staff_ai import generate_score"` 통과
+
+**주요 결정 / 이슈**
+
+- **autochord 설치 실패** → 일단 보류. autochord가 의존하는 `vamp==1.1.0`이 numpy를 빌드 종속성으로 선언 안 해서 wheel 빌드 단계에서 `ModuleNotFoundError: No module named 'numpy'`. Windows에서 흔한 이슈고, planning/03-tech-stack.md에서도 코드 추정 라이브러리는 "1~2개 시도 후 결정" 항목이라 분석 모듈 만들 때 다시 판단. 후보: ① `vamp`에 `[tool.uv.extra-build-dependencies]`로 numpy 주입, ② librosa chroma + 직접 매칭으로 우회, ③ 다른 환경(Win10)에서 재시도.
+- `.python-version`은 현재 `.gitignore`에 들어있음 → uv 컨벤션상 보통 커밋하는 파일이라 추후 결정 필요 (다른 머신에서 같은 Python 버전 보장하려면 커밋이 안전).
+
+**다음**
+
+- 다른 환경에서 `git clone` → `uv sync` → ffmpeg 설치 → autochord 재시도 → v0 핵심 모듈 구현 진입
